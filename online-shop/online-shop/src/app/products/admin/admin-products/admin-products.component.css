@@ -1,0 +1,25 @@
+.products_items__container{
+    display:flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    height: 100%;
+}
+.card{
+    width:25%;
+    height:90%;
+    text-align: end;
+}
+
+.img-top{
+    max-height: 100px;
+}
+
+.btn{
+    position: relative;
+    bottom: 10px;
+    left:5px;
+}
+.btns{
+    display:flex;
+    justify-content: space-around;
+}

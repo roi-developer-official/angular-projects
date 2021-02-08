@@ -1,0 +1,26 @@
+.menu_container,.menu_items{
+    width:100%;
+    height: 100%;
+    display:flex;
+    flex-direction: column;
+    list-style: none;
+}
+.item{
+    text-align:end;
+    align-self: flex-end;
+    width:80%;
+    border-bottom: 1px solid black;
+    height: 50px;
+    cursor: pointer;
+    padding:10px;
+    text-decoration: none;
+}
+
+.item:hover{
+    background-color: seashell;
+}
+
+.active{
+    background-color: seashell;
+    font-weight: bold;
+}

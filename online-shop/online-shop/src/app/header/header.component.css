@@ -1,0 +1,23 @@
+.nav-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 75px;
+    min-height: 75px;
+}
+.nav-link{
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.nav-item{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+    min-height: 80px;
+    height:80px;
+}

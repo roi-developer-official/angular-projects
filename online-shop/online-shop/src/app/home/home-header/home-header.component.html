@@ -1,0 +1,41 @@
+<div class="home_main_header">
+    <div class="home_header__images">
+        <div class="big_image__container">
+            <app-main-header-image (productSelected)="onSelectedProduct($event)" [prod]="products[0]"></app-main-header-image>
+        </div>
+        <div  class="meduim_image__container">
+            <app-main-header-image (productSelected)="onSelectedProduct($event)" [prod]="products[1]? products[1] : null"></app-main-header-image>
+        </div>
+    <div class="small_image__container">
+            <app-main-header-image (productSelected)="onSelectedProduct($event)" [prod]="products[2]? products[2] : null"></app-main-header-image>
+    </div> 
+    </div>
+    <div class="home_header__favorite">
+        <app-header-favorite (productSelected)="onSelectedProduct($event)"></app-header-favorite>
+    </div>
+</div>
+<div *ngIf="selectedProduct" class="card">
+    <button (click)="selectedProduct = null" class="btn btn-secondary close">&times;</button>
+    <img
+      class="img-top"
+      src="http://localhost:3000/{{selectedProduct.imageUrl}}"
+      alt="Card image cap"
+    />
+    <div  class="card-body">
+      <h5 class="card-title">{{selectedProduct.title}}</h5>
+      <p class="card-text">
+        {{selectedProduct.description}}
+      </p>
+      <p>מחיר: {{selectedProduct.price}}$</p>
+      <ul class="ingredients">
+         <li>:רכיבים</li> 
+        <li *ngFor="let ing of selectedProduct.ingredients">
+         {{ing}}
+        </li>
+      </ul>
+      <div class="btn-group">
+        <button (click)="addToBasket()" class="btn btn-warning">הוסף לעגלה</button>
+      </div>
+    </div>
+</div>
+

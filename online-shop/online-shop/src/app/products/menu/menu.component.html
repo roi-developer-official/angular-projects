@@ -1,0 +1,10 @@
+<div class="menu_container">
+    <ul class="menu_items">
+        <a
+        [ngClass]="{'active' : subCat === cat.value}"
+         routerLink="/meals" 
+         [queryParams]="{meal: mainCat, sub: cat.value}"
+         *ngFor="let cat of categories"
+          class="item">{{cat.name}}</a>
+    </ul>
+</div>

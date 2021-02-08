@@ -1,0 +1,60 @@
+<div class="container col-11 col-sm-10 col-md-10 col-lg-11 col-xl-9">
+    <div class="order-details">
+        <table class="table col-7 col-sm-7 col-md-9 col-lg-11 col-xl-12">
+            <thead>
+              <tr>
+                <th scope="col">כמות</th>
+                <th scope="col">מחיר</th>
+                <th scope="col">שם</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let prod of products; let i = index">
+                <td>{{prod.quantity}}</td>
+                <td>{{prod.product.price}}$</td>
+                <td>{{prod.product.title}}</td>
+                <th scope="row">{{i+1}}</th>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    <div class="checkout">
+      <form class="checkout_form"
+      [formGroup]="detailsForm" 
+      (ngSubmit)="onSubmit()"
+       >
+        <div class="form-group">
+          <label>שם</label>
+          <input 
+          class="form-control w-75" 
+          type="text"
+          formControlName="name"
+          >
+        </div>
+        <div class="form-group">
+          <label>מספר טלפון</label>
+          <input
+          class="form-control w-75" 
+          type="tel"
+          formControlName="phone"
+          >
+        </div>
+        <div class="form-group">
+          <label>כתובת</label>
+          <input 
+          class="form-control w-75" 
+          type="text"
+          formControlName="address"
+          >
+        </div>
+        <div class="checkout_container">
+          <button 
+          type="submit" 
+          class="btn btn-primary"
+          >לביצוע הזמנה</button>      
+          <p>{{totalPrice}}$סה'כ לתשלום</p>
+        </div>
+      </form>
+    </div>
+</div>

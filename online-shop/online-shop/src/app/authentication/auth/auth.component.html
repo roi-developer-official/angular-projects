@@ -1,0 +1,27 @@
+
+<div class="contanier">
+    <p *ngIf="error">{{error}}</p>
+    <form #f="ngForm" class="auth-form" (ngSubmit)="onSubmit(f)">
+        <div class="form-group">
+            <label >אימייל</label>
+            <input 
+            type="email" 
+            class="form-control"  
+            placeholder="אימייל"
+            name="email"
+            ngModel 
+            >
+        </div>
+        <div class="form-group">
+            <label >סיסמא</label>
+            <input 
+            type="password" 
+            class="form-control" 
+            placeholder="סיסמא"
+            name="password"
+            ngModel 
+            >
+        </div>
+        <button type="submit" class="btn btn-primary">{{btnTitle}}</button>
+    </form>
+</div>

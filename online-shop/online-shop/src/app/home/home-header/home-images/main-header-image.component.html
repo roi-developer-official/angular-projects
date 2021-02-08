@@ -1,0 +1,19 @@
+<div 
+*ngIf="prod"
+class="image_container"
+ 
+ (mouseenter)="scaleIt=true"
+ (mouseleave)="scaleIt=false"
+  >
+  <div class="image_extras">
+      <h4 
+      class="header_image__title">{{ prod.title }}</h4>
+      <p 
+       class="header_image__description"
+       >{{ prod.description }}</p>
+       <button (click)="onSelectProduct(prod._id)" class="btn header_image__more btn-secondary" type="button">פרטים</button>
+  </div>
+    <img 
+    [ngClass]="{'image_hovered' : scaleIt === true}" 
+    src="http://localhost:3000/{{prod.imageUrl}}"  alt="">
+</div>

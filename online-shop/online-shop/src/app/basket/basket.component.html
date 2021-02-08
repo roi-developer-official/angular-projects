@@ -1,0 +1,23 @@
+<div [ngClass]="{'open' : isOpen}" class="container">
+    <div (click)="closeBasket()" class="btn btn-outline-warning">&times;</div>
+    <p class="total_price">{{totalPrice.toFixed(2)}}$ :סה"כ לתשלום</p>
+    <div *ngIf="products.length !== 0" class="items">
+        <div *ngFor="let prod of products; let i = index" class="item">
+            <button (click)="removeProduct(i)" class="btn btn-danger">&times;</button>
+            <input 
+            type="number" 
+            #quantity
+            class="item_amount__input"
+            min="0"
+            value="{{prod.quantity}}"
+            (change)=changeQuantity(quantity.value,i)
+            >
+            <p>:'כמ</p>
+            <div class="container-sm">
+                <p class="item_price">{{prod.product.price}}</p>
+                <p class="item_title">{{prod.product.title}}</p>
+            </div>
+        </div>
+    <button (click)="moveToCheckout()" class="btn btn-warning" type="button">לביצוע הזמנה</button>
+</div>
+</div>

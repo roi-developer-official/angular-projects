@@ -1,0 +1,34 @@
+.container{
+    position: relative;
+    font-family: 'Alef', sans-serif;
+    height:100%;
+    width:80%;
+    background-color: #69ac69;
+    padding:40px 20px;
+    text-align: end;
+    color: rgba(255, 255, 255, 0.815);
+    flex-wrap: wrap;
+
+}
+
+.container img{
+    left:30px;
+    bottom: 30px;
+    width:90px;
+    height: 60px;
+    background-position: center;
+    object-fit: initial;
+    position: absolute;
+}
+
+.btn{
+    bottom: 70px;
+    right:20px;
+    width:80px;
+    min-width:80px;
+}
+.favorite_ingredients__items{
+    list-style: none;
+}
+
+

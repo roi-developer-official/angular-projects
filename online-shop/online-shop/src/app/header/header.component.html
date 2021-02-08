@@ -1,0 +1,43 @@
+<div class="nav-container bg-dark">
+    <ul class="nav left">
+        <li *ngIf="!isAuthenticated" class="nav-item">
+            <a class="nav-link" routerLink="/signup">הירשם</a>
+        </li>
+        <li *ngIf="!isAuthenticated" class="nav-item">
+            <a class="nav-link"  routerLink="/login">התחבר</a>
+        </li>
+        <li (click)="logout()" *ngIf="isAuthenticated || isAdmin" class="nav-item">
+            <a class="nav-link" routerLink="/">התנתק</a>
+        </li>
+    </ul>
+    <ul class="nav right">
+        <li *ngIf="isAdmin" class="nav-item">
+            <a class="nav-link" 
+            routerLink="/admin/add-product"
+            [queryParams]="{editMode: false}"
+            >הוסף מוצר</a>
+        </li>
+        <li (click)="openBasket()" *ngIf="!isAdmin" class="nav-item">
+            <a class="nav-link" >סל הקניות</a>
+        </li>
+        <li 
+        (mouseleave)="onMouseOut($event)"
+        (mouseenter)="showCat()"
+        class="nav-item nav_item__products">
+        <a class="nav-link" *ngIf="isAdmin" [routerLink]="'/admin/products'">מוצרים</a>
+        <a class="nav-link" *ngIf="!isAdmin" [routerLink]="'/home'">מוצרים</a>
+    </li>
+    <li class="nav-item">
+            <a class="nav-link active" routerLink="/home">דף הבית</a>
+    </li>
+    </ul>
+</div>
+<app-sub-categories
+*ngIf="showProdCtgs"
+[showProdCtgsInput]="showProdCtgs"
+[categories]="categories"
+(hideProdCtgs)="showProdCtgs = false">
+</app-sub-categories>
+
+
+

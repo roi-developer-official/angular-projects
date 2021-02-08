@@ -1,0 +1,28 @@
+<p *ngIf="error">{{error}}</p>
+<div *ngIf="!error" class="products_items__container">
+    <div *ngFor="let prod of products" class="card">
+      <img
+        class="img-top"
+        src="http://localhost:3000/{{ prod.imageUrl }}"
+        alt="Card image cap"
+      />
+      <div class="card-body">
+        <h5 class="card-title">{{prod.title}}</h5>
+        <p>price: {{prod.price}}$</p>
+        <p class="card-text">
+         {{prod.description}}
+        </p>
+        <div class="btns">
+          <button 
+          (click)="deleteProd(prod._id)"
+          type="button" 
+          class="btn btn-danger"
+          >מחק מוצר</button>
+          <a 
+          routerLink="/admin/edit/{{prod._id}}"
+          [queryParams]="{editMode: true}"
+           class="btn btn-primary">ערוך מוצר</a>
+        </div>
+      </div>
+    </div>
+</div>

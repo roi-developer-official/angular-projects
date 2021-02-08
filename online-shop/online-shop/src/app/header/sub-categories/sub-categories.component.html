@@ -1,0 +1,32 @@
+<ul 
+*ngIf="showProdCtgs"
+(mouseleave)="onMouseLeave($event)"
+class="products_categories nav bg-light">
+  <li 
+  *ngFor="let prodCtg of categories;let i = index;" 
+  class="nav-item"
+  (mouseenter)="showSubCategories(prodCtg.subCtg, prodCtg.value)">
+    <a 
+    routerLink="/meals"
+    [queryParams]="{meal: prodCtg.value, sub: null}"
+    class="category_link nav-link"
+
+    >{{ prodCtg.name }}</a>
+    <ul 
+    (mouseleave)="onMouseLeave($event)"
+    *ngIf="subCtgs === prodCtg.subCtg"
+    class="products_sub__categories bg-light">
+        <li 
+        *ngFor="let prodSubCtg of subCtgs" 
+        class="nav-item_sub col-12"
+        >
+          <a
+           class="nav-link sub_category__link" 
+           (click)="hide()"
+           [queryParams]="{ meal:  mainCategory, sub: prodSubCtg.value}"
+           [routerLink]="['/meals']"
+           >{{ prodSubCtg.name }}</a>
+        </li>
+    </ul>
+  </li>
+</ul>

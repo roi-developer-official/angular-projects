@@ -1,0 +1,34 @@
+<div *ngIf="products" class="container-fluid home_main__container">
+  <hr />
+  <div class="home_main__cards__container">
+    <div [ngClass]="{'show': show[i], 'placeholder' : !prod }" *ngFor="let prod of products; let i = index" class="card">
+      <div *ngIf="show[i]" class="placeholder"></div>
+      <button *ngIf="show[i]" (click)="hideDetails(i)" class="btn btn-secondary close">&times;</button>
+      <img
+      *ngIf="prod"
+      (mouseover)="isHovered = true"
+      [ngClass]="{'hovered': isHovered }"
+        class="img-top"
+        src="http://localhost:3000/{{prod.imageUrl}}"
+        alt="Card image cap"
+      />
+      <div *ngIf="prod" class="card-body">
+        <h5 class="card-title">{{prod.title}}</h5>
+        <p class="card-text">
+          {{prod.description}}
+        </p>
+        <p>מחיר: {{prod.price}}$</p>
+        <ul *ngIf=show[i] class="ingredients">
+           <li>:רכיבים</li> 
+          <li *ngFor="let ing of prod.ingredients">
+           {{ing}}
+          </li>
+        </ul>
+        <div class="btn-group">
+          <button *ngIf="!show[i]" (click)="displayDetails(i)" class="btn btn-secondary">פרטים</button>
+          <button (click)="addToBasket(i)" class="btn btn-warning">הוסף לעגלה</button>
+        </div>
+      </div>
+    </div>
+    </div>
+</div>

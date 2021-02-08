@@ -1,0 +1,13 @@
+<div *ngIf="product" class="container">
+      <h4>:מנת היום</h4>
+      <p>{{product.title}}</p>
+      <p>{{product.description}}</p>
+      <h4>:רכיבים</h4>
+      <ul class="favorite_ingredients__items">
+          <li *ngFor="let ing of product.ingredients">{{ing}}</li>
+      </ul>
+      <img src="http://localhost:3000/{{product.imageUrl}}" alt="">
+      <button (click)="onSelectedProduct(product._id)" class="btn btn-dark">
+          פרטים
+      </button>
+</div>

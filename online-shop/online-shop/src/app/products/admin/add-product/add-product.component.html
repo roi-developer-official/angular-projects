@@ -1,0 +1,81 @@
+<div class="contanier">
+    <form 
+    [formGroup]="addProductForm" 
+    class="add-form"
+    (ngSubmit)="onSubmit()"
+    >
+        <div class="form-group">
+            <label>תגית</label>
+            <input 
+            type="text" 
+            class="form-control"
+            formControlName="title"
+             >
+        </div>
+        <div class="form-group">
+            <label>שם המוצר</label>
+            <input
+             type="text" 
+             class="form-control"
+             formControlName="name"
+             >
+        </div>
+        <div class="form-group">
+            <label>מחיר</label>
+            <input 
+            min="0"
+            step="0.10"
+            type="number" 
+            formControlName="price"
+            >
+        </div>
+        <div class="form-group" formArrayName="categories">
+            <label>קטגוריה</label>
+            <label *ngFor="let cat of categoriesCon; let i = index">
+            <input type="checkbox" [formControlName]="i" 
+            >
+             {{categoriesCon[i].name}}</label>
+        </div>
+        <div formArrayName="ingredients" class="form-group">
+            <label>רכיבים</label>
+            <button (click)="addControl()" type="button" class="btn btn-primary w-50">הוסף רכיב</button>
+            <div *ngFor="let ing of getControls(); let i = index" class="ings">
+                <button (click)=deleteControl(i) class="btn btn-danger">&times;</button>
+                <input 
+                type="text"
+                [formControlName]="i"
+                >
+            </div>
+        </div>
+        <div class="form-group">
+            <input 
+            type="file" 
+            #file
+            class="form-control"
+            (change)="addFile($event)"
+            >
+        </div>
+        <div class="form-group">
+            <label>תיאור</label>
+            <textarea 
+            formControlName="description"
+            cols="30" 
+            rows="2"
+            ></textarea>
+        </div>
+        <div class="form-group show_on__home">
+            <p>להראות על דף הבית</p>
+            <div>
+                <label for="home-prod">כן</label>
+                <input 
+                type="radio" formControlName="homeProd" value="true">
+            </div>
+            <div>
+                <label for="home-prod">לא</label>
+                <input 
+                type="radio" formControlName="homeProd" value="false">
+            </div>
+        </div>
+        <button type="submit" [disabled]="!addProductForm.valid || !isFile" class="btn btn-primary">אישור</button>
+    </form>
+</div>

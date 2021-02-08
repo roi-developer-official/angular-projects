@@ -1,0 +1,39 @@
+.container{
+    width:100%;
+
+}
+.form-group{
+    display:flex;
+    flex-direction: column;
+    text-align: end;
+}
+.add-form{
+    margin: auto;
+    margin-top: 20px;
+    width:20%;
+}
+input{
+    text-align: end;
+}
+textarea{
+    text-align: end;
+}
+
+.ings{
+    width:100%;
+    display:flex;
+    margin:4px;
+}
+.ings input{
+    width:100%;
+}
+
+.show_on__home{
+    display:flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+.show_on__home label, .show_on__home input{
+    width:40px;
+    
+}

@@ -1,0 +1,96 @@
+<div class="products_main__container">
+    <div class="products_header__image">
+        <div class="shadower"></div>
+            <img  src="http://localhost:3000/{{mainImageUrl}}" alt="">
+    </div>
+    <div class="placeholder" [class]="mainCategory">
+      <!-- <div class="breakfast_image">
+        <div class="cup-holder">
+          <div class="hole"></div>
+        </div>
+
+        <div class="cup"></div>
+        <div class="coffe-back">
+          <div class="coffee">
+          </div>
+        </div>
+        <div class="plate"></div>
+        <div class="omlet"></div>
+        <div class="egg"></div>
+        <div class="toast_one"></div>
+        <div class="toast_two"></div>
+        <div class="tometo"></div>
+        <div class="cucamber"></div>
+      </div> -->
+
+      <!-- <div class="lunch-image">
+        <div class="meat-plate">
+          <div class="meat">
+            <div class="meat_circle"></div>
+          </div>
+          <div class="coloraby"></div>
+        </div>
+        <div class="fork">
+          <div class="fork_base"></div>
+          <div class="fork-head">
+            <div class="teeth_one"></div>
+            <div class="teeth_one_a"></div>
+            <div class="teeth_two"></div>
+            <div class="teet_two_a"></div>
+
+            <div class="teeth_three"></div>
+            <div class="teet_three_a"></div>
+            <div class="teeth_four"></div>
+            <div class="teet_four_a"></div>
+          </div>
+        </div>
+        <div class="knife">
+          <div class="knife_base"></div>
+          <div class="knife_head"></div>
+        </div>
+      </div> -->
+      
+    </div>
+    <div class="menu_container">
+        <app-menu [mainCat]="mainCategory" [categories]="subCategoriesArray"></app-menu>
+    </div>
+    <div class="products_container">
+        <div class="products_items__container">
+              <div [ngClass]="{'show': show[i]}" *ngFor="let prod of displayProducts; let i = index" class="card">
+              <button *ngIf="show[i]" (click)="hideDetails()" class="btn btn-secondary close">&times;</button>
+                <img
+                  *ngIf="prod"
+                  class="card-img-top"
+                  src="http://localhost:3000/{{prod.imageUrl}}"
+                  alt="Card image cap"
+                />
+                <div *ngIf="prod"  class="card-body">
+                  <h5 class="card-title">{{prod.title}}</h5>
+                  <p class="card-text">
+                   {{prod.description}}
+                  </p>
+                  <div *ngIf="show[i]">
+                    <p>מחיר: {{prod.price}}$</p>
+                    <ul class="ingredients">
+                      <li>:רכיבים</li> 
+                      <li *ngFor="let ing of prod.ingredients">
+                        {{ing}}
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="btn-group">
+                    <button *ngIf="!show[i]" (click)="displayDetails(i)" class="btn btn-secondary">פרטים</button>
+                    <button (click)="addToBasket(i)" class="btn btn-warning">הוסף לעגלה</button>
+                  </div>
+                </div>
+              </div> 
+        </div>
+        <ul class="pagination pagination-md">
+            <li *ngFor="let page of pages; let i = index" class="page-item">
+              <a class="page-link"
+                (click)="setPageNumber(i + 1)"
+                [ngClass]="{'active' : currentPage === i + 1}">{{i + 1}}</a>
+            </li>
+        </ul>
+    </div>
+</div>
