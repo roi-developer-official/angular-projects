@@ -1,43 +1,128 @@
 <div class="nav-container bg-dark">
-    <ul class="nav left">
-        <li *ngIf="!isAuthenticated" class="nav-item">
-            <a class="nav-link" routerLink="/signup">הירשם</a>
-        </li>
-        <li *ngIf="!isAuthenticated" class="nav-item">
-            <a class="nav-link"  routerLink="/login">התחבר</a>
-        </li>
-        <li (click)="logout()" *ngIf="isAuthenticated || isAdmin" class="nav-item">
-            <a class="nav-link" routerLink="/">התנתק</a>
-        </li>
-    </ul>
-    <ul class="nav right">
-        <li *ngIf="isAdmin" class="nav-item">
-            <a class="nav-link" 
-            routerLink="/admin/add-product"
-            [queryParams]="{editMode: false}"
-            >הוסף מוצר</a>
-        </li>
-        <li (click)="openBasket()" *ngIf="!isAdmin" class="nav-item">
-            <a class="nav-link" >סל הקניות</a>
-        </li>
-        <li 
-        (mouseleave)="onMouseOut($event)"
-        (mouseenter)="showCat()"
-        class="nav-item nav_item__products">
-        <a class="nav-link" *ngIf="isAdmin" [routerLink]="'/admin/products'">מוצרים</a>
-        <a class="nav-link" *ngIf="!isAdmin" [routerLink]="'/home'">מוצרים</a>
+  <ul class="nav left desktop">
+    <li *ngIf="!isAuthenticated" class="nav-item">
+      <a class="nav-link " routerLink="/signup">הירשם</a>
+    </li>
+    <li *ngIf="!isAuthenticated" class="nav-item">
+      <a class="nav-link " routerLink="/login">התחבר</a>
+    </li>
+    <li (click)="logout()" *ngIf="isAuthenticated || isAdmin" class="nav-item">
+      <a class="nav-link" routerLink="/">התנתק</a>
+    </li>
+    <li *ngIf="isAuthenticated && !isAdmin" class="nav-item">
+      <a class="nav-link" routerLink="/orders">ההזמנות שלי</a>
+    </li>
+  </ul>
+  <ul class="nav right desktop">
+    <li *ngIf="isAdmin" class="nav-item">
+      <a
+        class="nav-link"
+        routerLink="/admin/add-product"
+        [queryParams]="{ editMode: false }"
+        >הוסף מוצר</a
+      >
+    </li>
+    <li (click)="openBasket()" *ngIf="!isAdmin" class="nav-item">
+      <a class="nav-link">סל הקניות</a>
+    </li>
+    <li
+      (mouseleave)="onMouseOut($event)"
+      (mouseenter)="showCat()"
+      class="nav-item nav_item__products"
+    >
+      <a class="nav-link" *ngIf="isAdmin" [routerLink]="'/admin/products'"
+        >מוצרים</a
+      >
+      <a class="nav-link" *ngIf="!isAdmin" [routerLink]="'/home'">מוצרים</a>
     </li>
     <li class="nav-item">
-            <a class="nav-link active" routerLink="/home">דף הבית</a>
+      <a class="nav-link active" routerLink="/home">דף הבית</a>
     </li>
-    </ul>
+  </ul>
+  <ul class="nav mobile">
+      <li class="nav-item">
+          <a (click)="showMenu()" class="nav-link active">תפריט</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" routerLink="/home">דף הבית</a>
+        </li>
+  </ul>
 </div>
 <app-sub-categories
-*ngIf="showProdCtgs"
-[showProdCtgsInput]="showProdCtgs"
-[categories]="categories"
-(hideProdCtgs)="showProdCtgs = false">
+  *ngIf="showProdCtgs"
+  [showProdCtgsInput]="showProdCtgs"
+  [categories]="categories"
+  (hideProdCtgs)="showProdCtgs = false"
+>
 </app-sub-categories>
 
 
+<div [ngClass]="{'show-menu' : showMoblieMenu, 'hide-menu' : !showMoblieMenu}" class="mobile_menu__container">
+  <ul class="mobile_menu__items">
+    <li class="mobile_menu__item" (click)="showMoblieMenu=false">
+      <a class="nav-link" routerLink="/home">דף הבית</a>
+    </li>
+    <li
+      class="menu-item nav_item__products"
+    >
+      <a 
+      (click)="showMoblieMenu = false"
+      class="nav-link" *ngIf="isAdmin" [routerLink]="'/admin/products'"
+        >מוצרים</a
+      >
+      <a
+        class="nav-link"
+        (click)="mobileShowProds = !mobileShowProds"
+        *ngIf="!isAdmin"
+        >מוצרים</a
+      >
+      <ul *ngIf="mobileShowProds" class="mobile_menu__cat">
+        <li
+          *ngFor="let cat of mobileReverseCats; let i = index"
+          class="mobile-cat"
+        >
+          <div>
+            <p (click)="mobileShowSubCatHandler(i)" class="nav-link">
+              {{ cat.name }}
+            </p>
+            <div *ngIf="mobileShowSubCat[i]" class="sub-cat">
+              <a 
+              (click)="showMoblieMenu=false;mobileShowSubCat=[];mobileShowProds=false"
+              *ngFor="let sub of cat.subCtg" class="nav-link"  
+              [queryParams]="{ meal:  cat.value, sub: sub.value}"
+              [routerLink]="['/meals']"
+              >{{
+                sub.name
+              }}</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </li>
+    <li *ngIf="isAuthenticated && !isAdmin" class="menu-item">
+      <a  (click)="showMoblieMenu=false" class="nav-link" routerLink="/orders">ההזמנות שלי</a>
+    </li>
+    <li *ngIf="isAdmin" class="menu-item">
+      <a
+       (click)="showMoblieMenu=false"
+        class="nav-link"
+        routerLink="/admin/add-product"
+        [queryParams]="{ editMode: false }"
+        >הוסף מוצר</a
+      >
+    </li>
+    <li (click)="openBasket();showMoblieMenu=false" *ngIf="!isAdmin" class="menu-item">
+      <a class="nav-link">סל הקניות</a>
+    </li>
+    <li *ngIf="!isAuthenticated" class="menu-item">
+        <a (click)="showMoblieMenu=false" class="nav-link" routerLink="/login">התחבר</a>
+      </li>
+    <li *ngIf="!isAuthenticated" class="menu-item">
+      <a (click)="showMoblieMenu=false" class="nav-link" routerLink="/signup">הירשם</a>
+    </li>
 
+    <li (click)="logout()" *ngIf="isAuthenticated || isAdmin" class="menu-item">
+      <a (click)="showMoblieMenu=false" class="nav-link" routerLink="/">התנתק</a>
+    </li>
+  </ul>
+</div>

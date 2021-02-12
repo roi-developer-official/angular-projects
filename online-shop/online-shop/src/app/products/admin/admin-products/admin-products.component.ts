@@ -13,23 +13,26 @@ import * as productsActions from '../../store/products.actions'
 export class AdminProductsComponent implements OnInit {
   products: Product[];
   error:string;
-
+  loadingArr:boolean[] = [];
+  loading:boolean;
   constructor(private store:Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
    
-    this.store.dispatch(new productsActions.GetAdminProds())
+    this.store.dispatch(new productsActions.GetAdminProdsStart())
     this.store.select('product').subscribe(
       (state)=>{
+        this.loading = state.loading;
+        this.loadingArr = state.loadingArr;
         if(state.error){
           this.error = state.error;
         } else {
-          this.products = state.products
+          this.products = state.products;
+          
         }
       }
     )
-    if(this.products.length === 0)
-      this.store.dispatch(new productsActions.GetAdminProdsStart())
+  
   }
 
   

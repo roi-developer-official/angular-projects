@@ -1,13 +1,13 @@
 <div class="home_main_header">
     <div class="home_header__images">
         <div class="big_image__container">
-            <app-main-header-image (productSelected)="onSelectedProduct($event)" [prod]="products[0]"></app-main-header-image>
+            <app-main-header-image max="500" margin="5" (productSelected)="onSelectedProduct($event)" [prod]="products[0]"></app-main-header-image>
         </div>
         <div  class="meduim_image__container">
-            <app-main-header-image (productSelected)="onSelectedProduct($event)" [prod]="products[1]? products[1] : null"></app-main-header-image>
+            <app-main-header-image max="250" (productSelected)="onSelectedProduct($event)" [prod]="products[1]? products[1] : null"></app-main-header-image>
         </div>
     <div class="small_image__container">
-            <app-main-header-image (productSelected)="onSelectedProduct($event)" [prod]="products[2]? products[2] : null"></app-main-header-image>
+            <app-main-header-image max="200" (productSelected)="onSelectedProduct($event)" [prod]="products[2]? products[2] : null"></app-main-header-image>
     </div> 
     </div>
     <div class="home_header__favorite">

@@ -7,15 +7,19 @@ module.exports = (req,res,next)=>{
         error.code = 401;
         throw error;
     }
-    const isAuth = jwt.verify(token, 'secret');
-    if(!isAuth){
-        const error = new Error('Un Authorized')
-        error.code = 401;
-        throw error;
-    }
-    const decoded = jwt.decode(token)
-    if(decoded.isAdmin){
-       return next()
-    }
+
+    jwt.verify(token, 'secret',
+    (err,decoded)=>{
+        if(err){
+            console.log(err.message);
+            const error = new Error(err.message)
+            error.code = 401;
+            return next(error)
+        }
+        if(decoded.isAdmin){
+            next();
+        }
+    });
+
 
 }

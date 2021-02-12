@@ -21,8 +21,8 @@ const productSchema = new mongoose.Schema({
         type: String,
         required:true
       },
-      ingredients:[],
-      categories:[],
+      ingredients:Array,
+      categories:Array,
       homeProd:Boolean
 })
 

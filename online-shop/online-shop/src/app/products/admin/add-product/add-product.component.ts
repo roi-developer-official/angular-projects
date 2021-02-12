@@ -15,6 +15,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
   file: File = null;
   isFile = false;
   subscription;
+  loading:boolean;
   prodId: string = null;
   error: string;
   editMode: boolean = false;
@@ -28,8 +29,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromApp.AppState>,
-    private activeRoute: ActivatedRoute,
-    private router: Router
+    private activeRoute: ActivatedRoute
   ) {}
 
 
@@ -40,22 +40,24 @@ export class AddProductComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.error = null;
     this.addProductForm = new FormGroup({
-      title: new FormControl(null, Validators.required),
+      title: new FormControl(null,Validators.required),
       name: new FormControl(null, Validators.required),
       price: new FormControl(null, Validators.required),
-      description: new FormControl(''),
+      description: new FormControl(null, Validators.required),
       ingredients: new FormArray([]),
+      homeProd: new FormControl("false", Validators.required),
       categories: new FormArray([
         new FormControl(false),
         new FormControl(false),
         new FormControl(false),
         new FormControl(false),
         new FormControl(false),
-      ]),
-      homeProd: new FormControl(false),
+      ],this.validateCategories)
     });
 
+  
     this.activeRoute.queryParams.subscribe((params) => {
       this.editMode = params['editMode'] === 'true';
       if (this.editMode) {
@@ -63,17 +65,28 @@ export class AddProductComponent implements OnInit, OnDestroy {
         this.store.dispatch(
           new productsActions.GetSingleProdStart(this.prodId)
         );
-        this.subscription = this.store.select('product').subscribe((state) => {
-          if (state.error) {
-            this.error = state.error;
-          } else if (state.product) {
-            this.fillFormFields(state.product);
-          }
-        });
-      } else {
-        this.addProductForm.reset();
+      } 
+    });
+
+    this.subscription = this.store.select('product').subscribe((state) => {
+      this.loading = state.loading
+      this.error = state.error;
+      if (state.product && this.editMode && !this.loading) {
+        this.fillFormFields(state.product);
       }
     });
+  }
+
+  validateCategories(controls:FormArray): {[s:string]: boolean}{
+    let isValid = false;
+    for(let control of controls.controls){
+      if(control.value){
+        isValid = true;
+      }
+    }
+    if(!isValid){
+      return {'must have a value': true}
+    }
   }
 
 
@@ -91,14 +104,11 @@ export class AddProductComponent implements OnInit, OnDestroy {
         .setValue(true);
     });
 
-    if ((<FormArray>this.addProductForm.get('ingredients')).length === 0)
-      for (let ing of product.ingredients) {
-        (<FormArray>this.addProductForm.get('ingredients')).push(
-          new FormControl(ing)
-        );
-      }
-  }
+    for(let ing of product.ingredients){
+        (<FormArray>this.addProductForm.get('ingredients')).push(new FormControl(ing))
+    }
 
+  }
 
   onSubmit() {
     const {
@@ -109,6 +119,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
       name,
       homeProd,
     } = this.addProductForm.controls;
+
 
     let { categories } = this.addProductForm.controls;
     const formedCats = [];
@@ -127,27 +138,15 @@ export class AddProductComponent implements OnInit, OnDestroy {
     formData.append('ingredients', ingredients.value);
     formData.append('categories', formedCats.toString());
     formData.append('homeProd', homeProd.value);
-    
+
     if (this.editMode) {
       formData.append('_id', this.prodId);
       this.store.dispatch(new productsActions.EditProdStart(formData));
     } else {
       this.store.dispatch(new productsActions.AddProdStart(formData));
     }
-
-    this.router.navigate(['/admin/products']);
-    this.addProductForm.reset();
     
   }
-
-
-
-
-
-
-
-
-
 
   addFile(event) {
     this.file = event.target.files[0];
@@ -159,6 +158,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
       new FormControl(null)
     );
   }
+
 
   deleteControl(index) {
     (<FormArray>this.addProductForm.get('ingredients')).removeAt(index);

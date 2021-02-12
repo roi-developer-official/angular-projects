@@ -5,6 +5,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
+import { isAuthService } from '../auth/isAuth.service';
 
 
 export interface AuthResponseData {
@@ -18,10 +19,11 @@ export class AuthEffects {
   constructor(
     private actions$: Actions,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private isAuthService: isAuthService
   ) {}
 
-  @Effect({ dispatch: false })
+  @Effect()
   authSignup = this.actions$.pipe(
     ofType(authActions.SIGNUP_START),
     switchMap((signupActions: authActions.SignupStart) => {
@@ -29,6 +31,7 @@ export class AuthEffects {
         .post('http://localhost:3000/auth/signup', {
           email: signupActions.payload.email,
           password: signupActions.payload.password,
+          name:signupActions.payload.name
         })
         .pipe(
           tap(() => {
@@ -52,12 +55,18 @@ export class AuthEffects {
         })
         .pipe(
           map((resData: any) => {
-            localStorage.setItem('token', resData.token);
-            this.router.navigate(['/']);
+            //need's to be stored like this because we need to compare it when we autologin
+    
+            const expiration = new Date().getTime() + (resData.expiresIn * 1000)
+            if(!localStorage.getItem('token')){
+                localStorage.setItem('token',JSON.stringify({token: resData.token, expiresIn: expiration}));
+            }
+            //set time out to the expiration
+            this.isAuthService.autoLogout(expiration)
+            
+            this.router.navigate(['/home']);
             return new authActions.Login({
-              email: loginActions.payload.email,
-              token: resData.token,
-              isAdmin: resData.admin,
+              isAdmin: resData.admin
             });
           }),
           catchError((error:HttpErrorResponse) => {
@@ -72,18 +81,24 @@ export class AuthEffects {
     ofType(authActions.AUTO_LOGIN),
     switchMap((autoLogin: authActions.AutoLogin) => {
       return this.http
-        .post('http://localhost:3000/auth/isadmin', { body: {} })
+        .post('http://localhost:3000/auth/autologin', { body: {} })
         .pipe(
           switchMap((resData: any) => {
-            //check if the expiration data is legit
-            const token = localStorage.getItem('token');
-            return of(
-              new authActions.Login({
-                email: resData.email,
-                token,
-                isAdmin: resData.isAdmin,
-              })
-            );
+
+            if(resData.state){
+              this.router.navigate['/home']
+              return of(new authActions.NotLogged()) 
+            } else {
+              const {expiresIn}  = JSON.parse(localStorage.getItem('token'))
+              this.isAuthService.autoLogout(expiresIn)
+  
+              return of(
+                new authActions.Login({
+                  isAdmin: resData.isAdmin
+                })
+              );
+            }
+
           }),
           catchError((err:HttpErrorResponse) => {
             return of(new authActions.LoginFail(err.error.message));

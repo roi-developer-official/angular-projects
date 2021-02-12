@@ -1,4 +1,4 @@
-<div class="container col-11 col-sm-10 col-md-10 col-lg-11 col-xl-9">
+<div *ngIf="!orderId" class="container col-11 col-sm-10 col-md-10 col-lg-11 col-xl-9">
     <div class="order-details">
         <table class="table col-7 col-sm-7 col-md-9 col-lg-11 col-xl-12">
             <thead>
@@ -25,20 +25,14 @@
       (ngSubmit)="onSubmit()"
        >
         <div class="form-group">
-          <label>שם</label>
-          <input 
-          class="form-control w-75" 
-          type="text"
-          formControlName="name"
-          >
-        </div>
-        <div class="form-group">
           <label>מספר טלפון</label>
           <input
           class="form-control w-75" 
           type="tel"
           formControlName="phone"
+          (input)="phoneError = null"
           >
+          <span *ngIf="phoneError" class="help-block">{{phoneError}}</span>
         </div>
         <div class="form-group">
           <label>כתובת</label>
@@ -46,15 +40,23 @@
           class="form-control w-75" 
           type="text"
           formControlName="address"
+          (input)="addressError = null"
           >
+          <span *ngIf="addressError" class="help-block">{{addressError}}</span>
         </div>
         <div class="checkout_container">
           <button 
           type="submit" 
           class="btn btn-primary"
-          >לביצוע הזמנה</button>      
-          <p>{{totalPrice}}$סה'כ לתשלום</p>
+          >לביצוע הזמנה
+          <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </button>      
+          <p>{{totalPrice.toFixed(2)}}$סה'כ לתשלום</p>
         </div>
       </form>
     </div>
+</div>
+<div *ngIf="orderId" class="order_success">
+  <p>{{orderId}} :הזמנה מספר</p>
+  <p>התקבלה בהצלחה! תודה שקנית אצלנו</p>
 </div>

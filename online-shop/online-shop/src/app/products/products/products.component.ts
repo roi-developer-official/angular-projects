@@ -3,7 +3,7 @@ import { Product } from '../product.model';
 import * as fromApp from '../../store/app.reducer';
 import * as productsAction from '../store/products.actions';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BasketService } from 'src/app/basket/basket.service';
 
 @Component({
@@ -16,6 +16,7 @@ export class ProductsComponent implements OnInit {
   displayProducts: Product[] = [];
   productPerPage = 3;
   currentPage;
+  loading:boolean;
   pages = [];
   show:boolean[] = [];
   categories = [];
@@ -28,8 +29,10 @@ export class ProductsComponent implements OnInit {
   constructor(
     private store: Store<fromApp.AppState>,
     private ativatedRoute: ActivatedRoute,
-    private basketService:BasketService
+    private basketService:BasketService,
+    private router:Router
   ) {}
+
 
   ngOnInit(): void {
     this.store.dispatch(new productsAction.GetCategories());
@@ -37,7 +40,11 @@ export class ProductsComponent implements OnInit {
     this.ativatedRoute.queryParams.subscribe((params) => {
       this.mainCategory = params.meal;
       this.subCategory = params.sub;
+      if(!this.mainCategory){
+        return this.router.navigate(['/home'])
+      }
       this.store.select('product').subscribe((state) => {
+        this.loading = state.loading;
         if (state.error) {
           this.error = this.error;
         } else {
@@ -53,23 +60,20 @@ export class ProductsComponent implements OnInit {
       this.store.dispatch(new productsAction.GetAllProdsStart());
     }
   }
-
+  
 
   filterProducts() {
     if (!this.subCategory) {
       this.displayProducts = this.products.filter((prod) =>
         prod.categories.includes(this.mainCategory)
       );
-    }
-
-     else {
+    } else {
       this.displayProducts = this.products.filter(
         (prod) => prod.name === this.subCategory
       );
     }
     return this.displayProducts;
   }
-
 
   initSubCategories() {
     this.subCategoriesArray = this.categories.find(
@@ -95,7 +99,6 @@ export class ProductsComponent implements OnInit {
     this.setPageNumber(1);
   }
 
-
   setPageNumber(pagenum) {
     this.show = [];
     this.currentPage = pagenum;
@@ -115,7 +118,6 @@ export class ProductsComponent implements OnInit {
     this.show = [];
     this.basketService.closeBasket();
   }
-
 
   addToBasket(index:number){
     const product = this.displayProducts[index]

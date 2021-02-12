@@ -42,7 +42,6 @@ export class ActionFail implements Action{
 }
 
 export const GET_ADMIN_PRODS_START = "GET_ADMIN_PRODS_START"
-export const GET_ADMIN_PRODS = "GET_ADMIN_PRODS";
 export const GET_ADMIN_PRODS_SUCCESS = "GET_ADMIN_PRODS_SUCCESS";
 export const GET_SINGLE_PROD_START = "GET_SINGLE_PROD_START"
 export const GET_SINGLE_PROD_SUCCESS = "GET_SINGLE_PROD_SUCCESS"
@@ -56,10 +55,6 @@ export class StartDeleteProd implements Action{
     constructor(public payload: string){}
 }
 
-export class GetAdminProds implements Action{
-    readonly type = GET_ADMIN_PRODS;
-
-}
 export class DeleteSuccess implements Action{
     readonly type = DELETE_SUCCESS;
     constructor(public payload: string){}

@@ -3,9 +3,10 @@ import { Subject } from "rxjs";
 import { Product } from "../products/product.model";
 
 export interface BasketProduct{
+    _id:string;
     product: Product;
     quantity:number;
-  }
+}
 
 @Injectable()
 export class BasketService {
@@ -29,7 +30,7 @@ export class BasketService {
         if(index >= 0){
             this.products[index].quantity++;
         } else {
-            this.products.push({product: product, quantity:quantity});
+            this.products.push({_id:product._id,product: product, quantity:quantity});
         }
         this.calcTotalPrice();
         this.productsChanges.next({products: this.products,totalPrice: this.totalPrice});
@@ -65,6 +66,12 @@ export class BasketService {
         this.products[index].quantity = value;
         this.calcTotalPrice()
         this.productsChanges.next({products: this.products,totalPrice: this.totalPrice});
+    }
+
+    clearBasket(){
+        this.products = [];
+        this.totalPrice = 0;
+        this.productsChanges.next({products:[], totalPrice: 0})
     }
 
 

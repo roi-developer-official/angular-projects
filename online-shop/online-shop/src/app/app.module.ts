@@ -33,6 +33,9 @@ import { isAuthService } from './authentication/auth/isAuth.service';
 import { isAuthGuard } from './authentication/auth/isAuth.guard';
 import { BasketComponent } from './basket/basket.component';
 import { BasketService } from './basket/basket.service';
+import { OrdersComponent } from './orders/orders/orders.component';
+import { OrdersEffects } from './orders/store/orders.effects';
+import { PageGuard } from './header/page.guard';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,14 +54,15 @@ import { BasketService } from './basket/basket.service';
     AddProductComponent,
     AdminProductsComponent,
     PageNotFoundComponent,
-    BasketComponent
+    BasketComponent,
+    OrdersComponent
     
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     StoreModule.forRoot(fromApp.appReducer),
-    EffectsModule.forRoot([AuthEffects,ProductEffects]),
+    EffectsModule.forRoot([AuthEffects,ProductEffects,OrdersEffects]),
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule
@@ -67,7 +71,7 @@ import { BasketService } from './basket/basket.service';
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     isAdminService, isAdminGuard,
     isAuthService, isAuthGuard,
-    BasketService
+    BasketService, PageGuard
   ],
   bootstrap: [AppComponent]
 })

@@ -16,7 +16,8 @@ export interface ProductResult {
 export class ProductEffects {
   constructor(
     private http: HttpClient,
-    private actions$: Actions
+    private actions$: Actions,
+    private router:Router
   ) {}
 
   @Effect()
@@ -35,6 +36,7 @@ export class ProductEffects {
       return this.http.get('http://localhost:3000/products/admin-products');
     }),
     switchMap((result: Product[]) => {
+      console.log(result);
       return of(new productActions.GetAdminProdsSuccess(result));
     }),
     catchError((error) => {
@@ -46,6 +48,7 @@ export class ProductEffects {
   addProducts = this.actions$.pipe(
     ofType(productActions.ADD_PROD_START),
     switchMap((addProductActions: productActions.AddProdStart) => {
+      console.log('started');
       return this.http
         .post(
           'http://localhost:3000/products/add-product',
@@ -54,6 +57,7 @@ export class ProductEffects {
         .pipe(
           switchMap(({ product: result }: ProductResult) => {
             const product: Product = {
+              _id: result._id,
               title: result.title,
               name:result.name,
               description: result.description,
@@ -63,6 +67,7 @@ export class ProductEffects {
               categories: result.categories,
               homeProd: result.homeProd,
             };
+            this.router.navigate(['/admin/products']);
             return of(new productActions.AddProdSuccess(product));
           }),
           catchError((error) => {
@@ -83,10 +88,11 @@ export class ProductEffects {
         )
         .pipe(
           switchMap((resData:Product) => {
+            this.router.navigate(['/admin/products'])
             return of(new productActions.EditProdSuccess(resData));
           }),
           catchError((err) => {
-            return of(new productActions.ActionFail(err.error.message));
+            return of(new productActions.ActionFail('אופס! משהו השתבש'));
           })
         )
     )

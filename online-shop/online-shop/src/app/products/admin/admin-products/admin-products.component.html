@@ -1,11 +1,13 @@
-<p *ngIf="error">{{error}}</p>
+<p class="no_prods" *ngIf="!products.length && !loading">אין מוצרים</p>
+<span *ngIf="loading" class="spinner-border spinner-border-xl" role="status" aria-hidden="true"></span>
 <div *ngIf="!error" class="products_items__container">
-    <div *ngFor="let prod of products" class="card">
+    <div *ngFor="let prod of products; let i = index" class="card">
       <img
         class="img-top"
         src="http://localhost:3000/{{ prod.imageUrl }}"
         alt="Card image cap"
       />
+      <span *ngIf="loadingArr[i]" class="spinner-border spinner-border-lg" role="status" aria-hidden="true"></span>
       <div class="card-body">
         <h5 class="card-title">{{prod.title}}</h5>
         <p>price: {{prod.price}}$</p>

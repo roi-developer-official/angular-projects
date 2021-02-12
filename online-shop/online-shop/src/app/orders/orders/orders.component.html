@@ -1,0 +1,36 @@
+<div class="container">
+  <p class="no_orders" *ngIf="!orders.length && !loading">אין הזמנות</p>
+  <span *ngIf="loading" class="spinner-border spinner-border-lg" role="status" aria-hidden="true"></span>
+    <div *ngFor="let order of orders" class="order">
+        <table class=table-striped>
+            <thead class="bg-dark">
+              <tr class="tr"> 
+                  <div class="th" >סה''כ לתשלום: {{order.totalPrice}}</div>
+                  <div class="th" >{{getDate(order)}} :תאריך</div >
+                  <div class="th" ><p>:מספר הזמנה</p>#{{order._id}}</div>
+              </tr>
+            </thead>
+            <thead class="bg-light">
+              <tr class="tr"> 
+                <div class="th sub">:תמונה</div>
+                <div class="th sub">:מחיר</div>
+                <div class="th sub">:כמות</div>
+                <div class="th sub">:תיאור</div>
+                <div class="th sub">:שם</div>
+              </tr>
+            </thead>
+            <tbody >
+              <div class="tr" *ngFor="let prod of order.products; let i = index" >
+                  <tr  *ngIf="prod._id">
+                    <td><img  class="prod_image" src="http://localhost:3000/{{prod._id.imageUrl}}" alt=""></td>
+                    <td>{{prod._id.price}}</td>
+                    <td>{{prod.quantity}}</td>
+                    <td>{{prod._id.description}}</td>
+                    <td>{{prod._id.title}}</td>
+                    <th>#{{i+1}}</th>
+                  </tr>
+                </div>
+            </tbody>
+          </table>
+        </div>
+</div>

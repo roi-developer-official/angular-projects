@@ -1,16 +1,20 @@
-.container{
+.contanier{
     width:100%;
-
 }
 .form-group{
     display:flex;
     flex-direction: column;
     text-align: end;
 }
+
 .add-form{
     margin: auto;
     margin-top: 20px;
-    width:20%;
+    width:30%;
+}
+.error{
+    text-align: center;
+    margin-top: 30px;
 }
 input{
     text-align: end;
@@ -36,4 +40,10 @@ textarea{
 .show_on__home label, .show_on__home input{
     width:40px;
     
+}
+
+@media (max-width: 700px){
+    .add-form{
+        width:60%;
+    }
 }

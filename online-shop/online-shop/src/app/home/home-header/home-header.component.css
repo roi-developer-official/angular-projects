@@ -51,9 +51,9 @@
     position: absolute;
     z-index: 100;
     top:100px;
-    left:40%;
+    left:30vw;
     width:500px;
-    height: 500px;
+    height:fit-content;
     animation: scale .5s  ease;
 }
 .ingredients{
@@ -82,4 +82,24 @@
     to{
         transform: scale(1);
     }
+}
+
+
+@media (max-width:1212px){
+    .home_main_header{
+        grid-template-columns: 0% 100%;
+    }
+    .home_header__images{
+        grid-template-columns:45% 55%;
+    }
+
+
+}
+
+@media (max-width: 750px){
+
+    .card{
+        left:0vh;
+    }
+
 }

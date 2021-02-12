@@ -7,8 +7,6 @@ class="products_categories nav bg-light">
   class="nav-item"
   (mouseenter)="showSubCategories(prodCtg.subCtg, prodCtg.value)">
     <a 
-    routerLink="/meals"
-    [queryParams]="{meal: prodCtg.value, sub: null}"
     class="category_link nav-link"
 
     >{{ prodCtg.name }}</a>

@@ -6,13 +6,13 @@ const multer = require('multer')
 const path= require('path')
 const app = express();
 const authRoute = require('./routes/auth')
+const ordersRoute = require('./routes/orders')
 const {v4: uuid} = require('uuid')
 
 app.use(bodyParser.json())
 
 const fileStorage = multer.diskStorage({
     destination: (req,file,cb)=>{
-      
         cb(null,'images')
     },
     filename: (req,file,cb)=>{
@@ -39,9 +39,9 @@ app.use((req, res, next) => {
     next();
 })
 
+app.use('/orders', ordersRoute)
 app.use('/products', productRoute)
 app.use('/auth', authRoute)
-
 
 app.use((error,req,res,next)=>{
     const status = error.code || 500
@@ -51,7 +51,6 @@ app.use((error,req,res,next)=>{
 
 mongoose.connect('mongodb+srv://me:etnVVOw1DRG6akJV@cluster0.hj96h.mongodb.net/shop?retryWrites=true&w=majority')
 .then(()=>{
-    console.log('connected');
     app.listen(3000)
 }).catch(err=>{
     throw err;

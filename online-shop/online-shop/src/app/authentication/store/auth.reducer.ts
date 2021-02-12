@@ -1,4 +1,4 @@
-import { retry } from 'rxjs/operators'
+
 import { User } from '../user.model'
 import * as authActions from './auth.actions'
 
@@ -38,15 +38,13 @@ export function authReducer(state = initialState, action:any){
                 loading:false
             }
         case authActions.LOGIN:
-            const {email, token, isAdmin} = action.payload;
-            const user = new User(email,token);
+            const {isAdmin} = action.payload;
             return {
                 ...state,
                 authError:null,
-                user : user,
                 loading:false,
                 isAdmin,
-                isAuth: token
+                isAuth: true
             }
         case authActions.LOGOUT:
             localStorage.removeItem('token');
@@ -55,7 +53,16 @@ export function authReducer(state = initialState, action:any){
                 user:null,
                 isAdmin:false,
                 authError:null,
-                isAuth:false
+                isAuth:false,
+                expiresIn :null
+            }
+        case authActions.NOT_LOGGED:
+            return{
+                ...state,
+                user:null,
+                isAdmin:false,
+                isAuth:false,
+                authError:null
             }
         default : return state
     }

@@ -8,8 +8,8 @@
             type="number" 
             #quantity
             class="item_amount__input"
-            min="0"
-            value="{{prod.quantity}}"
+            min="1"
+            [value]="prod.quantity"
             (change)=changeQuantity(quantity.value,i)
             >
             <p>:'כמ</p>

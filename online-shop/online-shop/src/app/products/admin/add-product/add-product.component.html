@@ -1,28 +1,39 @@
-<div class="contanier">
+<div class="contanier ">
+    <span *ngIf="loading && editMode" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    <p *ngIf="error" class="error">{{error}}</p>
     <form 
     [formGroup]="addProductForm" 
     class="add-form"
     (ngSubmit)="onSubmit()"
     >
+    <div class="form-group">
+        <label>שם המוצר</label>
+        <select class="form-control w-50 mw-50 align-self-end"  formControlName="name">
+            <option value="toast">טוסט</option>
+            <option value="omlet">חביתה</option>
+            <option value="omlet">שקשוקה</option>
+            <option value="pizza">פיצה</option>
+            <option value="hamburger">המבורגר</option>
+            <option value="shnitzel">שינצל</option>
+            <option value="meat">בשר</option>
+            <option value="soup">מרק</option>
+            <option value="drink">קפה</option>
+            <option value="drink">מיץ</option>
+            <option value="dessert">גלידה</option>  
+        </select>
+    </div>
         <div class="form-group">
             <label>תגית</label>
             <input 
             type="text" 
             class="form-control"
             formControlName="title"
-             >
-        </div>
-        <div class="form-group">
-            <label>שם המוצר</label>
-            <input
-             type="text" 
-             class="form-control"
-             formControlName="name"
-             >
+            >
         </div>
         <div class="form-group">
             <label>מחיר</label>
             <input 
+            class="form-control align-self-end w-50 mw-50"
             min="0"
             step="0.10"
             type="number" 
@@ -59,6 +70,7 @@
             <label>תיאור</label>
             <textarea 
             formControlName="description"
+            class="form-control"
             cols="30" 
             rows="2"
             ></textarea>
@@ -73,9 +85,11 @@
             <div>
                 <label for="home-prod">לא</label>
                 <input 
-                type="radio" formControlName="homeProd" value="false">
+                type="radio" formControlName="homeProd" checked="checked" value="false">
             </div>
         </div>
-        <button type="submit" [disabled]="!addProductForm.valid || !isFile" class="btn btn-primary">אישור</button>
+        <button type="submit" [disabled]="!addProductForm.valid || !isFile" class="btn btn-primary">אישור
+            <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </button>
     </form>
 </div>

@@ -10,3 +10,9 @@ export interface Product {
     categories:string[];
     homeProd:boolean;
 }
+
+export interface OrderProduct{
+    _id:string,
+    quantity:number
+}
+

@@ -8,6 +8,7 @@ export interface State{
     loading:boolean,
     product: Product,
     categories:any[]
+    loadingArr:boolean[]
 }
 
 const initialState :State = {
@@ -15,6 +16,7 @@ const initialState :State = {
     error : null,
     loading : false,
     product: null,
+    loadingArr:[],
     categories: [
         {
           name: 'משקאות וקינוחים',
@@ -40,23 +42,40 @@ const initialState :State = {
 }
 
 export function productReducer(state = initialState, action:any){
+   
+    console.log(action.type);
     switch(action.type){
-        case action.ADD_PROD_START:
+    
+        case actions.START_DELETE_PROD:
+            const index = state.products.findIndex((prod)=>prod._id === action.payload);
+            const loading = [];
+            loading[index] = true;
+            return {
+                ...state,
+                error:null,
+                loadingArr: loading
+            }
+        case actions.ADD_PROD_START:
+            return{
+                ...state,
+                loading:true,
+                error:null,
+            }
         case actions.GET_ADMIN_PRODS_START:
         case actions.EDIT_PROD_START:
-        case actions.START_DELETE_PROD:
         case actions.GET_ALL_PRODS_START:
             return {
                 ...state,
                 loading:true,
-                error :null
+                error :null,
+                loadingArr:[]
             }
         case actions.GET_ALL_PRODS:
         return {
                 ...state,
                 loading:false,
-                products:state.products
-            }
+                products:state.products.slice()
+        }
         case actions.GET_ALL_PRODS_SUCCESS:
             return {
                 ...state,
@@ -76,19 +95,16 @@ export function productReducer(state = initialState, action:any){
                 ...state,
                 prodcuts:null,
                 loading: false,
-                error : action.payload
+                error : action.payload,
+                loadingArr:[]
             }
         case actions.GET_ADMIN_PRODS_SUCCESS:
             return {
                ...state,
-               products: action.payload,
+               products: action.payload.slice(),
                error:null,
-               loading:false
-            }
-        case actions.GET_ADMIN_PRODS:
-            return {
-                ...state,
-                products: state.products
+               loading:false,
+               loadingArr:[]
             }
         case actions.GET_SINGLE_PROD_START:
             return {
@@ -96,13 +112,6 @@ export function productReducer(state = initialState, action:any){
                 error:null,
                 loading:false,
                 product: state.products.filter(prod=>prod._id === action.payload)[0]
-            }
-        case actions.ADD_PROD_SUCCESS:
-            return {
-                ...state,
-                error:null,
-                loading:false,
-                products: [...state.products, action.payload]
             }
         case actions.EDIT_PROD_SUCEESS:
             const updatedProducts = state.products.slice();
@@ -119,7 +128,8 @@ export function productReducer(state = initialState, action:any){
                 ...state,
                 loading:false,
                 error:null,
-                products: state.products.filter(prod=>prod._id !== action.payload)
+                products: state.products.filter(prod=>prod._id !== action.payload),
+                loadingArr:[]
         }
         case actions.GET_CATEGORIES:
             return {

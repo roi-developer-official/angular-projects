@@ -2,18 +2,19 @@
     position: relative;
     font-family: 'Alef', sans-serif;
     height:100%;
-    width:80%;
+    width:85%;
     background-color: #69ac69;
-    padding:40px 20px;
+    padding:20px 30px;
     text-align: end;
     color: rgba(255, 255, 255, 0.815);
     flex-wrap: wrap;
+    font-size: 18px;
 
 }
 
 .container img{
-    left:30px;
-    bottom: 30px;
+    left:40px;
+    bottom: 60px;
     width:90px;
     height: 60px;
     background-position: center;
@@ -29,6 +30,13 @@
 }
 .favorite_ingredients__items{
     list-style: none;
+    max-height: 75px;
+    overflow: hidden;
 }
 
 
+@media (max-width: 1212px){
+    .container{
+        display:none;
+    }
+}

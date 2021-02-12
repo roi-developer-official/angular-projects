@@ -1,27 +1,42 @@
 
 <div class="contanier">
-    <p *ngIf="error">{{error}}</p>
-    <form #f="ngForm" class="auth-form" (ngSubmit)="onSubmit(f)">
+    <p class="error" *ngIf="error">{{error}}</p>
+    <form #f [formGroup]="form"  class="auth-form" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <label >אימייל</label>
             <input 
             type="email" 
             class="form-control"  
             placeholder="אימייל"
-            name="email"
-            ngModel 
+            formControlName="email"
+            (input)="emailError= null"
+            >
+            <span *ngIf="emailError" class="help-block">{{emailError}}</span>
+        </div>
+        <div *ngIf="!isLoginMode" class="form-group">
+            <label >שם</label>
+            <input 
+            type="text" 
+            class="form-control"  
+            placeholder="שם"
+            formControlName="name"
+            (input)="nameError= null"
             >
         </div>
+        <span *ngIf="nameError" class="help-block">{{nameError}}</span>
         <div class="form-group">
             <label >סיסמא</label>
             <input 
             type="password" 
             class="form-control" 
             placeholder="סיסמא"
-            name="password"
-            ngModel 
+            formControlName="password"
+            (input)="passwordError= null"
             >
+        <span *ngIf="passwordError" class="help-block">{{passwordError}}</span>
         </div>
-        <button type="submit" class="btn btn-primary">{{btnTitle}}</button>
+        <button type="submit" class="btn btn-primary">{{btnTitle}}
+            <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </button>
     </form>
 </div>

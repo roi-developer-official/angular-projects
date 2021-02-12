@@ -1,19 +1,21 @@
 <div 
 *ngIf="prod"
 class="image_container"
- 
  (mouseenter)="scaleIt=true"
  (mouseleave)="scaleIt=false"
   >
+  <div class="shadower" [ngStyle]="{'opacity' : scaleIt? 0 : 1}"></div>
   <div class="image_extras">
       <h4 
-      class="header_image__title">{{ prod.title }}</h4>
+      class="header_image__title" [ngStyle]="{'font-size': dynFont? (max / 170) + 'vw' : 30 +  'px'}">{{ prod.title }}</h4>
       <p 
+      [ngStyle]="{'font-size': dynFont? (max / 190) + 'vw' :  18 + 'px', 'margin-top': margin + 'px'}"
        class="header_image__description"
        >{{ prod.description }}</p>
        <button (click)="onSelectProduct(prod._id)" class="btn header_image__more btn-secondary" type="button">פרטים</button>
   </div>
     <img 
+    [ngStyle]="{'max-height' : max + 'px'}"
     [ngClass]="{'image_hovered' : scaleIt === true}" 
     src="http://localhost:3000/{{prod.imageUrl}}"  alt="">
 </div>

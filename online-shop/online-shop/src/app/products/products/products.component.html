@@ -1,56 +1,11 @@
+
 <div class="products_main__container">
     <div class="products_header__image">
         <div class="shadower"></div>
             <img  src="http://localhost:3000/{{mainImageUrl}}" alt="">
     </div>
-    <div class="placeholder" [class]="mainCategory">
-      <!-- <div class="breakfast_image">
-        <div class="cup-holder">
-          <div class="hole"></div>
-        </div>
-
-        <div class="cup"></div>
-        <div class="coffe-back">
-          <div class="coffee">
-          </div>
-        </div>
-        <div class="plate"></div>
-        <div class="omlet"></div>
-        <div class="egg"></div>
-        <div class="toast_one"></div>
-        <div class="toast_two"></div>
-        <div class="tometo"></div>
-        <div class="cucamber"></div>
-      </div> -->
-
-      <!-- <div class="lunch-image">
-        <div class="meat-plate">
-          <div class="meat">
-            <div class="meat_circle"></div>
-          </div>
-          <div class="coloraby"></div>
-        </div>
-        <div class="fork">
-          <div class="fork_base"></div>
-          <div class="fork-head">
-            <div class="teeth_one"></div>
-            <div class="teeth_one_a"></div>
-            <div class="teeth_two"></div>
-            <div class="teet_two_a"></div>
-
-            <div class="teeth_three"></div>
-            <div class="teet_three_a"></div>
-            <div class="teeth_four"></div>
-            <div class="teet_four_a"></div>
-          </div>
-        </div>
-        <div class="knife">
-          <div class="knife_base"></div>
-          <div class="knife_head"></div>
-        </div>
-      </div> -->
-      
-    </div>
+    <p class="no_prods" *ngIf="displayProducts.length === 0">אין מוצרים להצגה</p>
+    <span *ngIf="loading" class="spinner-border spinner-border-lg" role="status" aria-hidden="true"></span>
     <div class="menu_container">
         <app-menu [mainCat]="mainCategory" [categories]="subCategoriesArray"></app-menu>
     </div>
