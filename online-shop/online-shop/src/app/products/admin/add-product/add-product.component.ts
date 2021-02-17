@@ -45,7 +45,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
       title: new FormControl(null,Validators.required),
       name: new FormControl(null, Validators.required),
       price: new FormControl(null, Validators.required),
-      description: new FormControl(null, Validators.required),
+      description: new FormControl(null,Validators.required),
       ingredients: new FormArray([]),
       homeProd: new FormControl("false", Validators.required),
       categories: new FormArray([
