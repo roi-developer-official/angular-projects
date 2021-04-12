@@ -49,7 +49,7 @@ app.use((error,req,res,next)=>{
     res.status(status).json({message: message})
 })
 
-mongoose.connect('mongodb+srv://me:etnVVOw1DRG6akJV@cluster0.hj96h.mongodb.net/shop?retryWrites=true&w=majority')
+mongoose.connect('')
 .then(()=>{
     app.listen(3000)
 }).catch(err=>{
